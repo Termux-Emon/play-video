@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video/Audio Player</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1e1e1e;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 90%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 90%;
+            max-width: 400px;
+            padding: 15px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        iframe {
+            width: 100%;
+            max-width: 800px;
+            height: 56.25vw; /* Aspect ratio 16:9 */
+            max-height: 450px;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>YouTube Video/Audio Player</h1>
+    <input type="text" id="youtube-url" placeholder="Enter YouTube video link" />
+    <button id="play-video">Play Video</button>
+
+    <iframe id="youtube-player" allow="autoplay; fullscreen"></iframe>
+
+    <script>
+        document.getElementById('play-video').addEventListener('click', function() {
+            const url = document.getElementById('youtube-url').value;
+            const videoId = extractVideoId(url);
+
+            if (videoId) {
+                const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&fs=1`;
+                const player = document.getElementById('youtube-player');
+                player.src = embedUrl;
+            } else {
+                alert('Invalid YouTube URL!');
+            }
+        });
+
+        function extractVideoId(url) {
+            const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\s]+)/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        }
+    </script>
+</body>
+</html>
